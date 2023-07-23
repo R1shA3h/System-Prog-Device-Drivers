@@ -1,0 +1,21 @@
+#include <windows.h>
+#include<stdio.h>
+int _stdcall WinMain(HINSTANCE hlnstance, HINSTANCE prelnstance, LPSTR
+IpszCmdline, int
+cmdshow)
+{
+char str[50];
+sprintf(str, "%s", IpszCmdline);
+int count=0, i=0;
+while(str[i]!='\0')
+{ if(str[i]==' ')
+{
+count++;
+}
+i++;
+}
+printf("No of words=%d",count);
+sprintf(str, "%d",count);
+MessageBox(0,str, "No of Words", MB_OK);
+return 0;
+}
