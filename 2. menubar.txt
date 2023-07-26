@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<windows.h>
+WNDCLASS wc;
+#define ID_FILE_NEW 1
+#define ID_FILE_OPEN 2
+#define ID_FILE_EXIT 3
+long _stdcall myfunc(HWND w, UINT x, UINT y, long z){
+switch(x){
+case WM_DESTROY:
+PostQuitMessage(0);
+MessageBox(0,"hello","wait",MB_OK);
+printf("\n executed succcefully...)");
+break;
+case WM_CREATE:
+addMenu(w);
+break;
+case WM_COMMAND:
+switch(y){
+case ID_FILE_NEW:
+MessageBox(0,"New Button Clicked","File",MB_OK);
+break;
+case ID_FILE_OPEN:
+MessageBox(0,"Open Button Clicked","File",MB_OK);
+break;
+case ID_FILE_EXIT:
+PostQuitMessage (0);
+break;
+}
+break;
+default:
+return DefWindowProc(w,x,y,z);
+}
+return 0;
+}
+void addMenu(HWND h){
+HMENU hmenu, hparantmenu;
+hmenu = CreateMenu();
+hparantmenu = CreateMenu();
+AppendMenu(hparantmenu,MF_POPUP,hmenu,"&file");
+AppendMenu(hmenu,MF_STRING,ID_FILE_NEW,"&New");
+AppendMenu(hmenu, MF_STRING,ID_FILE_OPEN,"&0pen");
+AppendMenu(hmenu,MF_STRING,ID_FILE_EXIT,"&Exit");
+SetMenu(h,hparantmenu);
+}
+int _stdcall WinMain (HINSTANCE hinstance,HINSTANCE prevhinstance,LPSTR
+lpszcmdline, int
+ncmdShow){
+HINSTANCE hinst;
+HWND hwndMain;
+MSG msg;
+wc.lpfnWndProc = myfunc;
+wc.hInstance = hinstance;
+wc.lpszClassName = "MainClass";
+wc.lpszMenuName = "FirstMenu";
+RegisterClass(&wc);
+//code for createwindow and showwindow
+hwndMain =
+CreateWindow("MainClass","TEST",WS_OVERLAPPEDWINDOW,0,0,300,300,0,0,
+hinstance, 0);
+ShowWindow (hwndMain,SW_NORMAL);
+while(GetMessage (&msg,0,0,0))
+{
+DispatchMessage(&msg);
+}
+return 0;
+}
