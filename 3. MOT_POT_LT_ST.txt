@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+// Structure for Machine-Op Table (MOT)
+struct MOT {
+char mnemonic[10];
+int opcode;
+int length;
+};
+// Structure for Pseudo-Op Table
+(POT) struct POT {
+char pseudoOp[10];
+int code;
+};
+// Structure for Literal Table (LT)
+struct LT {
+char literal[10];
+int address;
+};
+// Structure for Symbol Table
+(ST) struct ST {
+char symbol[10];
+int address;
+};
+int main() {
+// Define Machine-Op Table (MOT)
+entries struct MOT motTable[100] = {
+{"ADD", 1, 1},
+{"SUB", 2, 1},
+{"MULT", 3, 1},
+{"MOVER", 4, 1},
+{"MOVEM", 5, 1},
+{"COMP", 6, 1},
+{"BC", 7, 1},
+{"DIV", 8, 1},
+{"READ", 9, 1},
+{"PRINT", 10, 1},
+{"STOP", 11, 0}
+};
+// Define Pseudo-Op Table (POT)
+entries struct POT potTable[4] = {
+{"START", 1},
+{"END", 2},
+{"DC", 3},
+{"DS", 4}
+};
+struct LT ltTable[3] = {
+{"=F'5'", 100},
+{"=C'HELLO'", 103},
+{"=X'1F'", 110}
+};
+struct ST stTable[4] = {
+{"START", 0},
+{"A", 200},
+{"B", 201},
+{"C", 202}
+};
+// Print Machine-Op Table (MOT)
+printf("Machine-Op Table (MOT):\n");
+printf("Mnemonic\tOpcode\tLength\n");
+for (int i = 0; i < 10; i++) {
+printf("%s\t\t%d\t%d\n", motTable[i].mnemonic, motTable[i].opcode,
+motTable[i].length); }
+// Print Pseudo-Op Table (POT)
+printf("\n\nPseudo-Op Table (POT):\n");
+printf("Pseudo-Op\tCode\n\n");
+for (int i = 0; i < 4; i++) {
+printf("%s\t\t%d\n", potTable[i].pseudoOp, potTable[i].code);
+}
+// Define Literal Table (LT) entries
+// Print Literal Table (LT)
+printf("\nLiteral Table (LT):\n");
+printf("Literal\t\tAddress\n");
+for (int i = 0; i < 3; i++) {
+printf("%s\t\t%d\n", ltTable[i].literal,
+ltTable[i].address); }
+// Print Symbol Table (ST)
+printf("\nSymbol Table (ST):\n");
+printf("Symbol\t\tAddress\n");
+return 0;
+}

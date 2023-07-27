@@ -1,0 +1,147 @@
+ST = []
+LT=[]
+E=[]
+lc = 0
+BT=[]
+B_T={}
+base=0;
+cnt=0;
+SOURCE_FILE = "input.txt"
+pseudo=["START","END","USING","LTORG"]
+var={}
+with open(SOURCE_FILE, "r") as f:
+for line in f:
+line=line.rstrip()
+#print(line)
+#print("***")
+tokens=line.split("\t")
+#print(tokens)
+l=4
+c="R"
+x=tokens[-1].split(",")
+#print(x[-1])
+if(tokens[0]!="-" and
+tokens[0]!=""):
+ST.append((tokens[0],lc,l,c))
+var[tokens[0]]=lc;
+if(x[-1][0]=="="):
+LT.append([x[-1],lc,l,c])
+var[x[-1]]=lc;
+if(tokens[1]=="USING"):
+if(x[0]=="*"):
+cnt=lc
+elif("+" in x[0]):
+tmp=x[0].split("+")
+cnt=var[tmp[0]]+eval(tmp[-1])
+elif("-" in x[0]):
+tmp=x[0].split("-")
+cnt=var[tmp[0]]-eval(tmp[-1])
+else:
+cnt=eval(x[0])
+base=x[-1]
+BT.append((base,cnt))
+B_T[base]=cnt
+if(tokens[1]=="EQU"):
+c="A"
+if(tokens[1]=="LTORG"):
+while(lc%8!=0):
+lc+=1;
+for i in LT:
+var[i[0]]=lc
+i[1]=lc
+lc+=4
+if(tokens[1] not in pseudo):
+if(tokens[1][-1]=="R"):
+lc+=2
+l=2
+else:
+lc+=4
+l=4
+else:
+l=1
+lc=0
+with open(SOURCE_FILE, "r") as
+f: for line in f:
+line=line.rstrip()
+#print(line)
+#print("***")
+tokens=line.split("\t")
+#print(tokens)
+l=4
+c="R"
+x=tokens[-1].split(",")
+#print(x[-1])
+if(tokens[1]=="LTORG"):
+while(lc%8!=0):
+lc+=1;
+for i in LT:
+lc+=4
+if(tokens[1] not in pseudo):
+if(tokens[1][-1]=="R"):
+lc+=2
+else:
+lc+=4
+idx=0;
+if(x[-1][-1]==")"):
+idx=eval(x[-1][-2])
+x[-1]=x[-1][:-3]
+d=0
+m=0
+if(x[-1][0]=="*"):
+m=lc-4
+if("+" in x[-1]):
+tmp=x[-1].split("+")
+m=m+eval(tmp[-1])
+elif("-" in x[-1]):
+tmp=x[-1].split("-")
+m=m-eval(tmp[-1])
+m=m-cnt
+d=str(m)+"("+str(idx)+","+str(base)
++")" elif(x[-1].isnumeric()):
+d=eval(x[-1])
+elif(x[-1] in var):
+m=var[x[-1]]
+m=m-cnt
+d=str(m)+"("+str(idx)+","+str(base)
++")" if(tokens[1]=="DC"):
+tmp1=tokens[-1][2:-1]
+tmp1=tmp1.split(",")
+tl=["\n"]
+for i in tmp1:
+tl.append(i+"\n")
+E.append(tl)
+elif(tokens[1]=="DS"):
+E.append(["","Reserved
+Memory"]) elif(tokens[1]=="BR"):
+E.append([tokens[1],15,d])
+else:
+E.append([tokens[1],x[0],d])
+else:
+l=1
+print("-----------------------------")
+print("\nSYMBOL TABLE\n")
+print("symbol,value,length,relocati
+on") for i in ST:
+for j in i:
+print(j,"\t",end="")
+print()
+print("-----------------------------")
+print("\nLITERAL TABLE\n")
+print("\nliteral,value,length,relocati
+on") for i in LT:
+for j in i:
+print(j,"\t",end="")
+print()
+print("-----------------------------")
+print("\nBASE TABLE\n")
+print("\nbase,content")
+for i in BT:
+for j in i:
+print(j,"\t",end="")
+print()
+print("-----------------------------")
+print("\nExpanded code\n")
+for i in E:
+for j in i:
+print(j,"\t",end="")
+print()
